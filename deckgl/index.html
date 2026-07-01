@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LimeSurvey Auswahlkarte - deck.gl</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div id="map">
+    <canvas id="deck-canvas" aria-label="Auswahlkarte"></canvas>
+  </div>
+  <div id="status" aria-live="polite">Karte wird geladen...</div>
+
+  <script src="https://unpkg.com/deck.gl@9.0.37/dist.min.js"></script>
+  <script src="config.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
