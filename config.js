@@ -8,10 +8,17 @@ window.MAP_CONFIG = {
   MIN_ZOOM: 5,
   MAX_ZOOM: 15,
 
+  // Datenschutzfreundlicher Standard: Die Rastertiles enthalten bereits die sichtbare Karte.
+  // Wenn die PNGs nur ein transparentes Overlay sind, BASEMAP_TILE_URL setzen und RASTER_IS_OVERLAY auf true.
+  BASEMAP_TILE_URL: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  BASEMAP_ATTRIBUTION: "&copy; OpenStreetMap contributors",
+
   // Rastertiles: statische PNG/JPG/WebP-Tiles im Repo, z.B. github-pages/tiles/12/2200/1343.png
   // Standard: gleiche Domain wie index.html, dadurch keine CORS-Probleme im iframe.
   RASTER_TILE_URL: "tiles/{z}/{x}/{y}.png",
   RASTER_ATTRIBUTION: "",
+  RASTER_IS_OVERLAY: false,
+  RASTER_OPACITY: 1,
 
   // Unsichtbarer/halbtransparenter Hitlayer. Darf nur oeffentlich unkritische Daten enthalten.
   HITLAYER_URL: "data/hitlayer.geojson",

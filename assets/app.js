@@ -1,6 +1,7 @@
 /* app.js - GitHub-Pages-Karte fuer LimeSurvey
  *
  * Aufgabe:
+ * - Optional eine Basemap darstellen.
  * - Rastertiles sichtbar darstellen.
  * - Minimalen Hitlayer laden.
  * - Bei Klick nur die opake cell_id an LimeSurvey senden.
@@ -35,11 +36,21 @@
     zoomControl: true
   }).setView(cfg.INITIAL_CENTER || [53.55, 10.0], cfg.INITIAL_ZOOM || 12);
 
+  if (cfg.BASEMAP_TILE_URL) {
+    L.tileLayer(cfg.BASEMAP_TILE_URL, {
+      minZoom: cfg.MIN_ZOOM,
+      maxZoom: cfg.MAX_ZOOM,
+      attribution: cfg.BASEMAP_ATTRIBUTION || "",
+      detectRetina: false
+    }).addTo(map);
+  }
+
   L.tileLayer(cfg.RASTER_TILE_URL || "tiles/{z}/{x}/{y}.png", {
     minZoom: cfg.MIN_ZOOM,
     maxZoom: cfg.MAX_ZOOM,
     attribution: cfg.RASTER_ATTRIBUTION || "",
     detectRetina: false,
+    opacity: cfg.RASTER_OPACITY ?? 1,
     tms: false
   }).addTo(map);
 
