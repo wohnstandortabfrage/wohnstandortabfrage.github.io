@@ -33,6 +33,7 @@
   const map = L.map("map", {
     minZoom: cfg.MIN_ZOOM,
     maxZoom: cfg.MAX_ZOOM,
+    maxBoundsViscosity: cfg.MAX_BOUNDS_VISCOSITY ?? 0.85,
     zoomControl: true
   }).setView(cfg.INITIAL_CENTER || [53.55, 10.0], cfg.INITIAL_ZOOM || 12);
 
@@ -45,14 +46,20 @@
     }).addTo(map);
   }
 
-  L.tileLayer(cfg.RASTER_TILE_URL || "tiles/{z}/{x}/{y}.png", {
+  const rasterOptions = {
     minZoom: cfg.MIN_ZOOM,
     maxZoom: cfg.MAX_ZOOM,
     attribution: cfg.RASTER_ATTRIBUTION || "",
     detectRetina: false,
     opacity: cfg.RASTER_OPACITY ?? 1,
     tms: false
-  }).addTo(map);
+  };
+
+  if (Number.isFinite(cfg.RASTER_MAX_NATIVE_ZOOM)) {
+    rasterOptions.maxNativeZoom = cfg.RASTER_MAX_NATIVE_ZOOM;
+  }
+
+  L.tileLayer(cfg.RASTER_TILE_URL || "tiles/{z}/{x}/{y}.png", rasterOptions).addTo(map);
 
   const selectedStyle = {
     color: "#000000",
@@ -109,7 +116,14 @@
 
       try {
         const b = hitLayer.getBounds();
-        if (b.isValid()) map.fitBounds(b.pad(0.05));
+        if (b.isValid()) {
+          const paddedBounds = b.pad(cfg.MAX_BOUNDS_PADDING ?? 0.08);
+          map.fitBounds(paddedBounds);
+
+          if (cfg.LIMIT_TO_HITLAYER_BOUNDS !== false) {
+            map.setMaxBounds(paddedBounds);
+          }
+        }
       } catch (_err) {
         // ignore
       }

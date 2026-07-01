@@ -8,8 +8,13 @@ window.MAP_CONFIG = {
   MIN_ZOOM: 5,
   MAX_ZOOM: 15,
 
+  // Begrenzung auf den Datenbereich aus dem Hitlayer. Verhindert unnoetige Tile-Anfragen ausserhalb des Gebiets.
+  LIMIT_TO_HITLAYER_BOUNDS: true,
+  MAX_BOUNDS_PADDING: 0.08,
+  MAX_BOUNDS_VISCOSITY: 0.85,
+
   // Datenschutzfreundlicher Standard: Die Rastertiles enthalten bereits die sichtbare Karte.
-  // Wenn die PNGs nur ein transparentes Overlay sind, BASEMAP_TILE_URL setzen und RASTER_IS_OVERLAY auf true.
+  // Wenn die PNGs nur ein transparentes Overlay sind, BASEMAP_TILE_URL setzen.
   BASEMAP_TILE_URL: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   BASEMAP_ATTRIBUTION: "&copy; OpenStreetMap contributors",
 
@@ -17,8 +22,11 @@ window.MAP_CONFIG = {
   // Standard: gleiche Domain wie index.html, dadurch keine CORS-Probleme im iframe.
   RASTER_TILE_URL: "tiles/{z}/{x}/{y}.png",
   RASTER_ATTRIBUTION: "",
-  RASTER_IS_OVERLAY: false,
   RASTER_OPACITY: 1,
+
+  // Optionales Hochskalieren: z.B. 14 setzen, dann nutzt Leaflet bei Zoom 15 die Zoom-14-Rastertiles.
+  // Die OSM-Basemap kann trotzdem echtes Zoom 15 laden, damit Haeuser auffindbar bleiben.
+  RASTER_MAX_NATIVE_ZOOM: null,
 
   // Unsichtbarer/halbtransparenter Hitlayer. Darf nur oeffentlich unkritische Daten enthalten.
   HITLAYER_URL: "data/hitlayer.geojson",
